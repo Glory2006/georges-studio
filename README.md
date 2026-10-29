@@ -1,73 +1,135 @@
-# React + TypeScript + Vite
+# Georges Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application front-end pour le studio photo Georges Studio. Elle permet de présenter les prestations, découvrir les catégories de shooting, visualiser des photos, puis réserver une séance via un calendrier interactif et un formulaire de contact.
 
-Currently, two official plugins are available:
+## 🎯 Objectif du projet
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Ce projet est une interface moderne et responsive destinée à :
 
-## React Compiler
+- présenter les services du studio,
+- afficher un catalogue visuel par catégorie,
+- afficher les disponibilités et les créneaux réservés,
+- permettre à un client de choisir une date et une heure,
+- envoyer le client vers WhatsApp pour confirmer sa demande,
+- fonctionner avec une API backend existante ou avec des données de secours si l’API est indisponible.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Fonctionnalités
 
-## Expanding the ESLint configuration
+- page d’accueil avec mise en avant du studio et des catégories,
+- galerie de photos par type de prestation,
+- vues détaillées de chaque catégorie,
+- carousel d’images avec rotation automatique,
+- calendrier mensuel pour sélectionner une date,
+- gestion des créneaux : disponible / passé / en attente / réservé,
+- formulaire de réservation avec validation des champs,
+- message pré-rempli pour WhatsApp,
+- fallback sur des données mockées si le backend est inaccessible.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧩 Stack technique
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19
+- TypeScript
+- Vite
+- CSS personnalisé
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📁 Structure du projet
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+.
+├── public/
+├── src/
+│   ├── App.css
+│   ├── App.tsx
+│   ├── config.ts
+│   ├── FRONTEND_INTEGRATION_GUIDE.md
+│   ├── index.css
+│   ├── main.tsx
+│   └── lib/
+│       └── availability.js
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Configuration
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Le fichier principal de configuration est :
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `src/config.ts`
+
+Il contient :
+
+- le nom du studio,
+- l’URL de l’API backend,
+- le numéro WhatsApp,
+- la fonction de génération du message WhatsApp.
+
+Par défaut, l’URL est :
+
+```ts
+http://localhost:3000/api
 ```
+
+Pour la personnaliser, vous pouvez définir une variable d’environnement :
+
+```bash
+VITE_API_URL=http://localhost:3000/api
+```
+
+## 🚀 Installation
+
+1. Installer les dépendances :
+
+```bash
+npm install
+```
+
+2. Lancer le projet en mode développement :
+
+```bash
+npm run dev
+```
+
+3. Ouvrir l’application dans le navigateur :
+
+```text
+http://localhost:5173
+```
+
+## 🏗️ Scripts disponibles
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
+
+## 🔌 Intégration API backend
+
+L’application attend une API exposant des endpoints de type :
+
+- `GET /api/type-photos`
+- `GET /api/photos`
+- `GET /api/photos/par-categorie/:slug`
+- `GET /api/config/studio`
+- `GET /api/disponibilites`
+
+Si les appels échouent, la UI bascule automatiquement vers des données de démonstration pour continuer le fonctionnement sans backend.
+
+## 📝 Notes importantes
+
+- Les messages WhatsApp sont préparés automatiquement selon la catégorie sélectionnée.
+- Les créneaux sont calculés selon les heures d’ouverture du studio.
+- Les dates passées et les réservations non disponibles sont marquées et désactivées.
+- Le projet est prêt pour une intégration avec un backend réel, tout en restant fonctionnel en mode mock.
+
+## 👤 Auteur / contexte
+
+Projet front-end de présentation et de réservation pour Georges Studio, conçu pour le pilotage de séances photo et la gestion visuelle des prestations.
